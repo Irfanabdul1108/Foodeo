@@ -1,0 +1,52 @@
+*{
+  margin: 0;
+  padding: 0;
+   box-sizing: border-box; 
+}
+
+html,body{
+  width: 100%;
+  height: 100%;
+}
+
+:root {
+  --bg: #0a0a0a;
+  --bg-elev: #111111;
+  --text: #e8e8e8;
+  --muted: #a3a3a3;
+  --primary: #10b981; 
+  --primary-contrast: #0b0f0d;
+  --border: #262626;
+}
+
+[data-theme="light"] {
+  --bg: #f7f7f7;
+  --bg-elev: #ffffff;
+  --text: #0f172a;
+  --muted: #475569;
+  --primary: #059669;
+  --primary-contrast: #ecfdf5;
+  --border: #e5e7eb;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.4;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.app-shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}

@@ -1,0 +1,12 @@
+.main { flex: 1 1 auto; padding: 32px 0; }
+.auth-wrap { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: center; }
+.hero { padding: 12px 0 24px; }
+.hero-title { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+.hero-subtitle { color: var(--muted); font-size: 13px; }
+.card { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 0 0 1px rgba(0,0,0,0.02), 0 8px 24px rgba(0,0,0,0.12); }
+.links-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+
+@media (min-width: 600px) { .links-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 900px) { .auth-wrap { grid-template-columns: 1.1fr 0.9fr; } .hero-title { font-size: 28px; } .hero-subtitle { font-size: 14px; } .card { padding: 20px; } }
+
+

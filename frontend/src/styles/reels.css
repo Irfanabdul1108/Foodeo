@@ -1,0 +1,478 @@
+.reels-container {
+  position: fixed;
+  top: 60px; 
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 60px); 
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  background: #000;
+  z-index: 1;
+}
+
+.reels-container::-webkit-scrollbar {
+  display: none;
+}
+.reels-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.reel-item {
+  width: 100%;
+  height: calc(100vh - 60px); 
+  scroll-snap-align: start;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reel-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+}
+
+.reel-info-left {
+  position: absolute;
+  bottom: 20px;
+  left: 16px;
+  right: 60px;
+  z-index: 10;
+  color: white;
+}
+
+.store-info {
+  margin-bottom: 12px;
+}
+
+.store-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.food-name {
+  font-size: 22px;
+  margin: 0;
+  opacity: 0.9;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.visit-store-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.visit-store-btn:hover {
+  background: #22c55e;
+  transform: translateY(-1px);
+}
+
+.visit-store-btn:active {
+  transform: translateY(0);
+}
+
+.reel-info-right {
+  position: absolute;
+  bottom: 20px;
+  right: 16px;
+  z-index: 10;
+}
+
+.reel-actions {
+  position: absolute;
+  bottom: 20px;
+  right: 16px;
+  z-index: 10;
+  display: grid;
+  grid-auto-rows: min-content;
+  gap: 10px;
+  align-items: center;
+  justify-items: center;
+}
+
+.circle-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.6);
+  border: 2px solid rgba(255,255,255,0.3);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.circle-btn.active { border-color: var(--primary); color: var(--primary); background: rgba(0,0,0,0.75); }
+
+.count { color: white; font-size: 12px; text-shadow: 0 1px 2px rgba(0,0,0,0.6); }
+
+.info-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.info-icon:hover {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.1);
+}
+
+.info-icon:active {
+  transform: scale(0.95);
+}
+
+.description-sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px 20px 0 0;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 20;
+  max-height: 50vh;
+  overflow: hidden;
+}
+
+.description-sheet.show {
+  transform: translateY(0);
+}
+
+.description-content {
+  padding: 24px 20px 20px;
+  position: relative;
+  color: white;
+}
+
+.description-content h4 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: var(--primary);
+}
+
+.description-content p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+  opacity: 0.9;
+}
+
+.close-description {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.close-description:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.reel-indicators {
+  position: fixed;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.indicator.active {
+  background: var(--primary);
+  transform: scale(1.2);
+}
+
+.indicator:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.reels-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  justify-content: center;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+}
+
+.tab {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.5);
+  color: var(--text);
+}
+
+.tab.active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--primary-contrast);
+}
+
+/* Desktop Responsive */
+@media (min-width: 768px) {
+  .reels-container {
+    position: fixed;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 500px;
+    height: calc(100vh - 60px);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-radius: 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    background: #000;
+  }
+
+  .reel-item {
+    height: calc(100vh - 60px);
+  }
+
+  body {
+    background: var(--bg);
+  }
+
+  .reel-info-left {
+    bottom: 40px;
+    left: 24px;
+    right: 80px;
+  }
+
+  .store-name {
+    font-size: 18px;
+  }
+
+  .food-name {
+    font-size: 16px;
+  }
+
+  .visit-store-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .reel-info-right {
+    bottom: 40px;
+    right: 24px;
+  }
+
+  .info-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .reel-indicators {
+    right: 24px;
+  }
+
+  .indicator {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .reels-container {
+    max-width: 600px;
+    border-radius: 12px;
+    top: 80px;
+    height: calc(100vh - 80px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .reel-item {
+    height: calc(100vh - 80px);
+  }
+
+  .reels-container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .reel-info-left {
+    bottom: 60px;
+    left: 32px;
+    right: 100px;
+  }
+
+  .store-name {
+    font-size: 20px;
+  }
+
+  .food-name {
+    font-size: 18px;
+  }
+
+  .visit-store-btn {
+    padding: 12px 24px;
+    font-size: 16px;
+  }
+
+  .reel-info-right {
+    bottom: 60px;
+    right: 32px;
+  }
+
+  .info-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .description-content {
+    padding: 32px 24px 24px;
+  }
+
+  .description-content h4 {
+    font-size: 20px;
+  }
+
+  .description-content p {
+    font-size: 16px;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .reels-container {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .visit-store-btn {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+  
+  .info-icon {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+.reel-item {
+  transition: opacity 0.3s ease;
+}
+
+.reel-item:not(.active) {
+  opacity: 0.8;
+}
+
+.reel-item.active {
+  opacity: 1;
+}
+
+.reel-video {
+  background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .description-sheet {
+    transition: none;
+  }
+  
+  .reel-item {
+    transition: none;
+  }
+  
+  .indicator {
+    transition: none;
+  }
+}
+
+.info-icon:focus,
+.visit-store-btn:focus,
+.indicator:focus,
+.close-description:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.reels-container ~ .navbar {
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.reels-container ~ .navbar .nav-link {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.reels-container ~ .navbar .nav-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--primary);
+}
+
+.reels-container ~ .navbar .theme-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
