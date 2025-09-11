@@ -4,7 +4,7 @@ import cors from "cors";
 const app = express();
 app.use(express.json());
 app.use(cors({
-  origin:'https://foodeo-lilac.vercel.app/',
+  origin:'https://foodeo-lilac.vercel.app',
   credentials:true
 }))
 import authRoutes from "../src/routes/auth.route.js";
