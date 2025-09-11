@@ -11,6 +11,7 @@ const Navbar = ({ onToggle, theme }) => {
           <Link
             to="/"
             className="nav-link"
+            id='head'
             style={{ border: "none", padding: 0 }}
           >
             Foodeo

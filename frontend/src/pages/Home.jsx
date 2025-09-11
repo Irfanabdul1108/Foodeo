@@ -37,6 +37,7 @@ const ReelsHome = () => {
         });
         setCounts(nextCounts);
       } else {
+          alert('login as user or food partner to view reels');
         console.error("Invalid API response for reels:", res.data);
       }
     } catch (err) {
@@ -241,6 +242,7 @@ const ReelsHome = () => {
         </button>
         <button
           className={`tab ${activeTab === "saved" ? "active" : ""}`}
+          id="saved"
           onClick={() => setActiveTab("saved")}
         >
           Saved

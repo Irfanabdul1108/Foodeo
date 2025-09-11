@@ -10,6 +10,17 @@
   background: #000;
   z-index: 1;
 }
+#saved{
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
 
 .reels-container::-webkit-scrollbar {
   display: none;
