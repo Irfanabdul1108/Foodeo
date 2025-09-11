@@ -20,7 +20,7 @@ const ReelsHome = () => {
 
   const fetchReels = useCallback(async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/food/", {
+      const res = await axios.get("https://foodeo.onrender.com/api/food/", {
         withCredentials: true,
       });
 
@@ -47,7 +47,7 @@ const ReelsHome = () => {
 
   const fetchSavedIds = useCallback(async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/food/savedIds", {
+      const res = await axios.get("https://foodeo.onrender.com/api/food/savedIds", {
         withCredentials: true,
       });
       const ids = Array.isArray(res.data.savedIds) ? res.data.savedIds : [];
@@ -132,7 +132,7 @@ const ReelsHome = () => {
   async function likevideo(id) {
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/food/like",
+        "https://foodeo.onrender.com/api/food/like",
         { foodid: id },
         { withCredentials: true }
       );
@@ -177,7 +177,7 @@ const ReelsHome = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/food/save",
+        "https://foodeo.onrender.com/api/food/save",
         { foodid: id },
         { withCredentials: true }
       );

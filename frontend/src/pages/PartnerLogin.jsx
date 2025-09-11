@@ -15,7 +15,7 @@ const PartnerLogin = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/food-partner/login",
+        "https://foodeo.onrender.com/api/auth/food-partner/login",
         { email, password },
         { withCredentials: true }
       );

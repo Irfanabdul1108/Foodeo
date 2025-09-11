@@ -14,7 +14,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/food/food-partner/${id}`, {
+      .get(`https://foodeo.onrender.com/api/food/food-partner/${id}`, {
         withCredentials: true,
       })
       .then((res) => {

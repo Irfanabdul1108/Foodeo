@@ -17,7 +17,7 @@ const CreateFood = () => {
     formData.append("video", e.target.video.files[0]);
 
     try {
-      const res = await axios.post("http://localhost:3000/api/food/", formData, {
+      const res = await axios.post("https://foodeo.onrender.com/api/food/", formData, {
         withCredentials: true,
       });
       console.log(res.data);

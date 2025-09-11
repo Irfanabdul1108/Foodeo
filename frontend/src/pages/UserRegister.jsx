@@ -17,7 +17,7 @@ const UserRegister = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/user/reg",
+        "https://foodeo.onrender.com/api/auth/user/reg",
         {
           name,
           email,
