@@ -22,7 +22,7 @@ const PartnerRegister = () => {
       );
 
       console.log(response.data);
-      navigate("/create");
+      navigate("/login");
     } catch (error) {
       console.error("Food-partner Registration failed:", error);
     }

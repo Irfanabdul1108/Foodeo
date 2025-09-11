@@ -75,7 +75,6 @@ const foodpartreg = async (req, res) => {
     }
     )
     res.json({ message: 'Food-Partner registered successfully', newfoodpartner });
-
 }
 
 const foodpartlogin = async (req, res) => {
