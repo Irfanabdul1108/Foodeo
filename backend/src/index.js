@@ -7,6 +7,7 @@ app.use(cors({
   origin:'https://foodeo-lilac.vercel.app',
   credentials:true
 }))
+
 import authRoutes from "../src/routes/auth.route.js";
 import foodRoutes from "../src/routes/food.route.js";
 app.use(cookieParser())

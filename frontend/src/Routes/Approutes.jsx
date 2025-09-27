@@ -14,6 +14,8 @@ import PartnerLogin from "../pages/PartnerLogin";
 import PartnerRegister from "../pages/PartnerRegister";
 import CreateFood from "../pages/CreateFood";
 import ProfilePage from "../pages/ProfilePage";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const useTheme = () => {
   const [theme, setTheme] = useState("dark");
@@ -50,6 +52,18 @@ const AppContent = () => {
         <Route path="/food-partner/:id" element={<ProfilePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </>
   );
 };

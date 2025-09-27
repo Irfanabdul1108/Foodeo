@@ -1,17 +1,53 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PageShell from "../components/PageShell";
 import TextField from "../components/TextField";
+import Toast from "../components/Toast";
 import "../styles/form.css";
 import axios from "axios";
 
 const UserLogin = () => {
   const navigate = useNavigate();
+  const [toast, setToast] = useState(null);
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    const isNewUser = localStorage.getItem('isNewUser');
+    if (isNewUser === 'true') {
+      setToast({ message: 'Please login to continue', type: 'success' });
+      localStorage.removeItem('isNewUser');
+    }
+  }, []);
+
+  const validateForm = (email, password) => {
+    const newErrors = {};
+    
+    if (!email) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = 'Invalid email format';
+    }
+    
+    if (!password) {
+      newErrors.password = 'Password is required';
+    }
+    
+    return newErrors;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.target[0].value;
     const password = e.target[1].value;
+
+    const validationErrors = validateForm(email, password);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      setToast({ message: 'Please fill all required fields correctly', type: 'error' });
+      return;
+    }
+
+    setErrors({});
 
     try {
       const response = await axios.post(
@@ -20,42 +56,66 @@ const UserLogin = () => {
         { withCredentials: true }
       );
 
-      console.log(response.data);
-      navigate("/");
+      if (response.data.success) {
+        setToast({ message: response.data.message, type: 'success' });
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
+      } else {
+        setToast({ message: response.data.message, type: 'error' });
+      }
     } catch (error) {
-      console.error("User Login failed:", error);
+      setToast({ 
+        message: error.response?.data?.message || "Login failed. Please try again.", 
+        type: 'error' 
+      });
     }
   };
 
   return (
-    <PageShell
-      title="User Login"
-      subtitle="Access your account to continue ordering."
-    >
-      <form className="form" onSubmit={handleSubmit}>
-        <TextField
-          id="user-email"
-          label="Email"
-          type="email"
-          placeholder="you@example.com"
+    <>
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
         />
-        <TextField
-          id="user-password"
-          label="Password"
-          type="password"
-          placeholder="••••••••"
-        />
-        <button className="btn" type="submit">
-          Login
-        </button>
-        <div className="row">
-          <span className="muted">New here?</span>
-          <Link to="/user/reg" className="btn secondary">
-            Create account
-          </Link>
-        </div>
-      </form>
-    </PageShell>
+      )}
+      <PageShell
+        title="User Login"
+        subtitle="Access your account to continue ordering."
+      >
+        <form className="form" onSubmit={handleSubmit}>
+          <div>
+            <TextField
+              id="user-email"
+              label="Email"
+              type="email"
+              placeholder="you@example.com"
+            />
+            {errors.email && <span className="error-text">{errors.email}</span>}
+          </div>
+          <div>
+            <TextField
+              id="user-password"
+              label="Password"
+              type="password"
+              placeholder="••••••••"
+            />
+            {errors.password && <span className="error-text">{errors.password}</span>}
+          </div>
+          <button className="btn" type="submit">
+            Login
+          </button>
+          <div className="row">
+            <span className="muted">New here?</span>
+            <Link to="/user/reg" className="btn secondary">
+              Create account
+            </Link>
+          </div>
+        </form>
+      </PageShell>
+    </>
   );
 };
 

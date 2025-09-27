@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import Toast from "../components/Toast";
 import axios from "axios";
 import "../styles/reels.css";
 
@@ -15,6 +16,7 @@ const ReelsHome = () => {
   const [savedIds, setSavedIds] = useState(new Set());
   const [counts, setCounts] = useState({}); 
   const [savingIds, setSavingIds] = useState(new Set()); 
+  const [toast, setToast] = useState(null);
   const videoRefs = useRef([]);
   const navigate = useNavigate();
 
@@ -36,26 +38,37 @@ const ReelsHome = () => {
           };
         });
         setCounts(nextCounts);
-      } else {
-          alert('login as user or food partner to view reels');
-        console.error("Invalid API response for reels:", res.data);
+      } else if (res.data.success === false) {
+        setToast({ message: res.data.message || 'Please login to view reels', type: 'error' });
+        setTimeout(() => navigate('/user/login'), 2000);
       }
     } catch (err) {
-      console.error("API fetch error (reels):", err);
+      console.error("Fetch reels error:", err);
+      if (err.response?.status === 401) {
+        setToast({ message: 'Please login to view reels', type: 'error' });
+        setTimeout(() => navigate('/user/login'), 2000);
+      } else {
+        setToast({ message: 'Failed to load reels', type: 'error' });
+      }
     }
-  }, []);
+  }, [navigate]);
 
   const fetchSavedIds = useCallback(async () => {
     try {
       const res = await axios.get("https://foodeo.onrender.com/api/food/savedIds", {
         withCredentials: true,
       });
-      const ids = Array.isArray(res.data.savedIds) ? res.data.savedIds : [];
-      setSavedIds(new Set(ids.map((x) => String(x))));
+      
+      if (res.data.success && res.data.savedIds) {
+        const ids = Array.isArray(res.data.savedIds) ? res.data.savedIds : [];
+        setSavedIds(new Set(ids.map((x) => String(x))));
+      }
     } catch (err) {
+      console.error("Fetch saved IDs error:", err);
       setSavedIds(new Set());
     }
   }, []);
+
   useEffect(() => {
     fetchReels();
     fetchSavedIds();
@@ -129,6 +142,7 @@ const ReelsHome = () => {
   };
 
   const feedList = activeTab === "feed" ? reelsData : reelsData.filter((r) => savedIds.has(String(r._id)));
+
   async function likevideo(id) {
     try {
       const res = await axios.post(
@@ -137,43 +151,44 @@ const ReelsHome = () => {
         { withCredentials: true }
       );
 
-      if (res.data && typeof res.data.likeCount === "number") {
+      if (res.data.success) {
         setCounts((c) => ({
           ...c,
           [id]: {
-            likes: res.data.likeCount,
+            likes: res.data.likeCount ?? 0,
             saves: c[id]?.saves ?? 0,
           },
         }));
-      }
 
-      if (res.data && typeof res.data.liked === "boolean") {
-        if (res.data.liked) setLikedIds((prev) => new Set(prev).add(id));
-        else setLikedIds((prev) => { const n = new Set(prev); n.delete(id); return n; });
+        if (res.data.liked) {
+          setLikedIds((prev) => new Set(prev).add(id));
+          setToast({ message: 'Liked!', type: 'success' });
+        } else {
+          setLikedIds((prev) => { 
+            const n = new Set(prev); 
+            n.delete(id); 
+            return n; 
+          });
+          setToast({ message: 'Unliked!', type: 'success' });
+        }
+      } else {
+        setToast({ message: res.data.message || 'Failed to like', type: 'error' });
       }
     } catch (err) {
       console.error("Like error:", err);
+      if (err.response?.status === 401) {
+        setToast({ message: 'Please login to like', type: 'error' });
+        setTimeout(() => navigate('/user/login'), 2000);
+      } else {
+        setToast({ message: 'Failed to like', type: 'error' });
+      }
     }
   }
 
   async function savevideo(id) {
     if (savingIds.has(id)) return;
-    const currentlySaved = savedIds.has(String(id));
-    const prevCount = counts[id]?.saves ?? 0;
+    
     setSavingIds((s) => new Set(s).add(id));
-    setCounts((c) => ({
-      ...c,
-      [id]: {
-        likes: c[id]?.likes ?? 0,
-        saves: Math.max(0, (c[id]?.saves ?? 0) + (currentlySaved ? -1 : 1)),
-      },
-    }));
-    setSavedIds((prev) => {
-      const next = new Set(prev);
-      if (currentlySaved) next.delete(String(id));
-      else next.add(String(id));
-      return next;
-    });
 
     try {
       const res = await axios.post(
@@ -182,39 +197,37 @@ const ReelsHome = () => {
         { withCredentials: true }
       );
 
-      if (res.data && typeof res.data.saveCount === "number") {
+      if (res.data.success) {
         setCounts((c) => ({
           ...c,
           [id]: {
             likes: c[id]?.likes ?? 0,
-            saves: res.data.saveCount,
+            saves: res.data.saveCount ?? 0,
           },
         }));
-      }
 
-      if (res.data && typeof res.data.saved === "boolean") {
         setSavedIds((prev) => {
           const next = new Set(prev);
-          if (res.data.saved) next.add(String(id));
-          else next.delete(String(id));
+          if (res.data.saved) {
+            next.add(String(id));
+            setToast({ message: 'Saved!', type: 'success' });
+          } else {
+            next.delete(String(id));
+            setToast({ message: 'Removed from saved', type: 'success' });
+          }
           return next;
         });
+      } else {
+        setToast({ message: res.data.message || 'Failed to save', type: 'error' });
       }
     } catch (err) {
-      console.error("Error saving video:", err);
-      setCounts((c) => ({
-        ...c,
-        [id]: {
-          likes: c[id]?.likes ?? 0,
-          saves: prevCount,
-        },
-      }));
-      setSavedIds((prev) => {
-        const next = new Set(prev);
-        if (currentlySaved) next.add(String(id));
-        else next.delete(String(id));
-        return next;
-      });
+      console.error("Save error:", err);
+      if (err.response?.status === 401) {
+        setToast({ message: 'Please login to save', type: 'error' });
+        setTimeout(() => navigate('/user/login'), 2000);
+      } else {
+        setToast({ message: 'Failed to save', type: 'error' });
+      }
     } finally {
       setSavingIds((s) => {
         const next = new Set(s);
@@ -225,126 +238,143 @@ const ReelsHome = () => {
   }
 
   return (
-    <div
-      className="reels-container"
-      ref={reelsContainerRef}
-      onScroll={handleScroll}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
-      <div className="reels-tabs">
-        <button
-          className={`tab ${activeTab === "feed" ? "active" : ""}`}
-          onClick={() => setActiveTab("feed")}
-        >
-          Feed
-        </button>
-        <button
-          className={`tab ${activeTab === "saved" ? "active" : ""}`}
-          id="saved"
-          onClick={() => setActiveTab("saved")}
-        >
-          Saved
-        </button>
-      </div>
+    <>
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
+      <div
+        className="reels-container"
+        ref={reelsContainerRef}
+        onScroll={handleScroll}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div className="reels-tabs">
+          <button
+            className={`tab ${activeTab === "feed" ? "active" : ""}`}
+            onClick={() => setActiveTab("feed")}
+          >
+            Feed
+          </button>
+          <button
+            className={`tab ${activeTab === "saved" ? "active" : ""}`}
+            id="saved"
+            onClick={() => setActiveTab("saved")}
+          >
+            Saved
+          </button>
+        </div>
 
-      {feedList.map((reel, index) => (
-        <div
-          key={reel._id}
-          className={`reel-item ${index === currentReel ? "active" : ""}`}
-        >
-          <div className="video-container">
-            <video
-              ref={(el) => (videoRefs.current[index] = el)}
-              className="reel-video"
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              autoPlay
-            >
-              <source src={reel.video} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+        {feedList.length === 0 && (
+          <div className="no-reels">
+            <p>{activeTab === "saved" ? "No saved reels yet" : "No reels available"}</p>
+          </div>
+        )}
 
-            <div className="reel-info-left">
-              <div className="store-info">
-                <h1 className="food-name">{reel.name}</h1>
+        {feedList.map((reel, index) => (
+          <div
+            key={reel._id}
+            className={`reel-item ${index === currentReel ? "active" : ""}`}
+          >
+            <div className="video-container">
+              <video
+                ref={(el) => (videoRefs.current[index] = el)}
+                className="reel-video"
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                autoPlay
+              >
+                <source src={reel.video} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+
+              <div className="reel-info-left">
+                <div className="store-info">
+                  <h1 className="food-name">{reel.name}</h1>
+                </div>
+                <button
+                  className="visit-store-btn"
+                  onClick={() => handleVisitStore(reel.foodpartner)}
+                >
+                  Visit Store
+                </button>
               </div>
-              <button
-                className="visit-store-btn"
-                onClick={() => handleVisitStore(reel.foodpartner)}
-              >
-                Visit Store
-              </button>
-            </div>
 
-            <div className="reel-actions">
-              <button
-                className={`circle-btn ${likedIds.has(reel._id) ? "active" : ""}`}
-                onClick={() => likevideo(reel._id)}
-                aria-label="Like"
-              >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  />
-                </svg>
-              </button>
-              <span className="count">{counts[reel._id]?.likes ?? 0}</span>
+              <div className="reel-actions">
+                <button
+                  className={`circle-btn ${likedIds.has(reel._id) ? "active" : ""}`}
+                  onClick={() => likevideo(reel._id)}
+                  aria-label="Like"
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill={likedIds.has(reel._id) ? "red" : "none"}>
+                    <path
+                      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    />
+                  </svg>
+                </button>
+                <span className="count">{counts[reel._id]?.likes ?? 0}</span>
 
-              <button
-                className={`circle-btn ${savedIds.has(String(reel._id)) ? "active" : ""}`}
-                onClick={() => savevideo(reel._id)}
-                aria-label="Save"
-                disabled={savingIds.has(reel._id)}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M6 4h12a2 2 0 0 1 2 2v14l-8-4-8 4V6a2 2 0 0 1 2-2z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  />
-                </svg>
-              </button>
-              <span className="count">{counts[reel._id]?.saves ?? 0}</span>
+                <button
+                  className={`circle-btn ${savedIds.has(String(reel._id)) ? "active" : ""}`}
+                  onClick={() => savevideo(reel._id)}
+                  aria-label="Save"
+                  disabled={savingIds.has(reel._id)}
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill={savedIds.has(String(reel._id)) ? "gold" : "none"}>
+                    <path
+                      d="M6 4h12a2 2 0 0 1 2 2v14l-8-4-8 4V6a2 2 0 0 1 2-2z"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    />
+                  </svg>
+                </button>
+                <span className="count">{counts[reel._id]?.saves ?? 0}</span>
 
-              <button className="info-icon" onClick={handleInfoClick} aria-label="Show description">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
-                  <path d="M12 16v-4M12 8h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-              </button>
-            </div>
-
-            <div className={`description-sheet ${showDescription ? "show" : ""}`}>
-              <div className="description-content">
-                <h4>{reel.name}</h4>
-                <p>{reel.description}</p>
-                <button className="close-description" onClick={() => setShowDescription(false)}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <button className="info-icon" onClick={handleInfoClick} aria-label="Show description">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+                    <path d="M12 16v-4M12 8h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                   </svg>
                 </button>
               </div>
+
+              <div className={`description-sheet ${showDescription ? "show" : ""}`}>
+                <div className="description-content">
+                  <h4>{reel.name}</h4>
+                  <p>{reel.description}</p>
+                  <button className="close-description" onClick={() => setShowDescription(false)}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-
-      <div className="reel-indicators">
-        {reelsData.map((_, index) => (
-          <button
-            key={index}
-            className={`indicator ${index === currentReel ? "active" : ""}`}
-            onClick={() => scrollToReel(index)}
-          />
         ))}
+
+        {feedList.length > 0 && (
+          <div className="reel-indicators">
+            {feedList.map((_, index) => (
+              <button
+                key={index}
+                className={`indicator ${index === currentReel ? "active" : ""}`}
+                onClick={() => scrollToReel(index)}
+              />
+            ))}
+          </div>
+        )}
       </div>
-    </div>
+    </>
   );
 };
 

@@ -487,3 +487,31 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
 }
+
+
+.circle-btn.liked svg path {
+  fill: red !important;
+  stroke: red !important;
+}
+
+.circle-btn.saved svg path {
+  fill: gold !important;
+  stroke: gold !important;
+}
+
+.circle-btn {
+  transition: transform 0.2s ease;
+}
+
+.circle-btn:active {
+  transform: scale(1.2);
+}
+
+.no-reels {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #666;
+  font-size: 18px;
+}
