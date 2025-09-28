@@ -6,7 +6,7 @@ Foodeo is a creative social platform for food lovers where short, engaging food 
 
 ## Live Link 🎉
 You can view the live preview of the project here:  
-👉 https://foodeo.vercel.app/
+👉 foodeo-lilac.vercel.app
 
 ---
 
@@ -47,7 +47,7 @@ You can view the live preview of the project here:
 
 ### Backend
 - Node.js + Express
-- Database: MongoDB (or Firebase, based on your setup)
+- Database: MongoDB
 
 ### Additional Tools
 - Authentication & Authorization (JWT or Session-based)
@@ -58,92 +58,81 @@ You can view the live preview of the project here:
 ## ⚙️ Installation
 
 ### Prerequisites
-- Node.js and npm (or yarn)
-- A configured database (e.g., MongoDB or Firebase)
-- Environment variables for frontend and backend
+- Node.js
+- npm or yarn
+- `.env` setup for both client and server
 
-### 1) Clone the Repository
+### Steps to Run Locally
+
+1. **Clone the Repository**
 ```bash
-git clone https://github.com/Irfanabdul1108/foodeo.git
+git clone https://github.com/Irfanabdul1108/talknlearn.git
 ```
 
-### 2) Backend Setup
+2. **Navigate to the Backend folder**
 ```bash
-cd foodeo/backend
+cd talknlearn/backend
+```
+
+3. **Setup Environment Variables**  
+Create a `.env` file with required variables (MongoDB URI, JWT secret, Stream credentials).
+
+4. **Install Backend Dependencies**
+```bash
 npm install
 ```
 
-Create a .env file in backend/ with the required variables. Example (MongoDB + JWT):
-```bash
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_super_secret_jwt_key
-NODE_ENV=development
-```
-
-If using Firebase instead of MongoDB, configure your Firebase credentials (example):
-```bash
-FIREBASE_PROJECT_ID=your_project_id
-FIREBASE_CLIENT_EMAIL=your_client_email
-FIREBASE_PRIVATE_KEY="your_private_key"
-FIREBASE_STORAGE_BUCKET=your_bucket
-JWT_SECRET=your_super_secret_jwt_key
-PORT=5000
-NODE_ENV=development
-```
-
-Run the backend:
+5. **Run the Backend**
 ```bash
 npm run dev
 ```
 
-### 3) Frontend Setup
-Open a new terminal:
+6. **Navigate to the Frontend folder**
 ```bash
-cd foodeo/frontend
+cd talknlearn/frontend 
+```
+
+7. **Setup Frontend Environment Variables**(if any)
+
+8. **Install Frontend Dependencies**
+```bash
 npm install
 ```
 
-Create a .env file in frontend/ (Vite example):
-```bash
-VITE_API_BASE_URL=http://localhost:5000
-```
-
-Run the frontend:
+9. **Run the Frontend**
 ```bash
 npm run dev
 ```
 
-### 4) Visit the App
-Open http://localhost:5173 in your browser.
+10. **Visit the App**
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
 ## 📁 Sample File Structure
 
 ```
-Foodeo/
-├── backend/                 # Node.js/Express backend
-│   ├── src/
-│   │   ├── controllers/
-│   │   ├── routes/
-│   │   ├── models/          # (If using MongoDB/Mongoose)
-│   │   ├── middleware/
-│   │   └── utils/
-│   ├── package.json
-│   └── .env                 # (Not committed)
-├── frontend/                # React frontend
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── hooks/
-│   │   └── services/
-│   ├── index.html
-│   ├── package.json
-│   └── .env                 # (Not committed)
-├── videos/                  # Static/local video uploads (optional)
-├── .gitignore
-└── README.md
+talknlearn/
+├── frontend/          # React frontend
+│   └── src/
+│       └── Routes/
+│       └── assets/
+│       └── components/
+│       └── pages/
+|       └── styles/
+|       - App.css
+        - App.jsx
+        - main.jsx
+├── backend/          # Express backend
+│   └── src/
+│       └── routes/
+│       └── controllers/
+│       └── middlewares/
+│       └── db/
+|       └── routes/
+|       └── services/
+|       - index.js
+├── README.md
 ```
 
 ---
@@ -163,11 +152,7 @@ Contributions are welcome!
 ## 🚀 Deployment
 
 - Frontend: Vercel
-- Backend: Render / Railway / Heroku (choose your preferred provider)
-
-Make sure to:
-- Set environment variables on the hosting platforms (same as your local .env).
-- Update VITE_API_BASE_URL in the frontend to point to your deployed backend URL.
+- Backend: Render
 
 ---
 
