@@ -71,7 +71,7 @@ git clone https://github.com/Irfanabdul1108/talknlearn.git
 
 2. **Navigate to the Backend folder**
 ```bash
-cd talknlearn/backend
+cd foodeo/backend
 ```
 
 3. **Setup Environment Variables**  
@@ -89,7 +89,7 @@ npm run dev
 
 6. **Navigate to the Frontend folder**
 ```bash
-cd talknlearn/frontend 
+cd foodeo/frontend 
 ```
 
 7. **Setup Frontend Environment Variables**(if any)
@@ -112,7 +112,7 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 ## 📁 Sample File Structure
 
 ```
-talknlearn/
+foodeo/
 ├── frontend/          # React frontend
 │   └── src/
 │       └── Routes/
