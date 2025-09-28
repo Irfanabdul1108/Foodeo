@@ -1,131 +1,182 @@
-Here is the complete `README.md` file in a single block:
-
-```markdown
 # 🍽️ Foodeo
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
 
-## Description
-Foodeo is a **creative social platform** designed for food lovers, where short, engaging food reels take the spotlight.  
-Similar to Instagram Reels, Foodeo allows users to **explore, share, and enjoy bite-sized food videos** — from mouth-watering recipes and street food adventures to restaurant highlights and kitchen hacks.
-
-## Live Link 🎉
-You can view the live preview of the project here:  
-[Live Preview](https://foodeo.vercel.app/)  
-
-## Features
-### 1. **Authentication & Authorization**
-- Secure login and registration system.
-- Protected routes to keep user data private and safe.
-
-### 2. **Profile Management**
-- Update user details and manage accounts easily.
-- Personalized profiles with reels and activity.
-
-### 3. **Like & Save Functionality**
-- Like food reels with real-time updates.
-- Save reels for later viewing.
-
-### 4. **CRUD Operations**
-- Create, read, update, and delete food reels instantly.
-- Real-time synchronization for seamless user experience.
-
-### 5. **Responsive Design**
-- Fully responsive UI for desktop and mobile.
-- Built with modern **UI/UX principles**.
-
-## Tech Stack
-### Frontend
-- **React.js**
-- **CSS**
-- **React Router**
-
-### Backend
-- **Node.js / Express**
-- **Database (MongoDB/Firebase)**
-
-### Additional Tools
-- **Authentication & Authorization** (JWT/Session-based)
-
-## Installation
-### Prerequisites
-- **Node.js** installed.
-- A configured database (e.g., MongoDB or Firebase).
-- **npm** or **yarn** as a package manager.
-
-### Steps
-1. **Clone the Repository:**
-   ```bash
-   git clone https://github.com/Irfanabdul1108/foodeo.git
-   ```
-
-2. **Navigate to the Project Folder:**
-
-   ```bash
-   cd foodeo
-   ```
-
-3. **Install Dependencies:**
-
-   ```bash
-   cd frontend && npm install
-   cd ../backend && npm install
-   ```
-
-4. **Set Up Environment Variables:**
-
-   * Create a `.env` file in `backend/`.
-   * Add necessary variables like `MONGO_URI`, `JWT_SECRET`, API keys, etc.
-
-5. **Run the Application:**
-
-   ```bash
-   # Run backend
-   cd backend
-   npm run dev
-
-   # Run frontend (in a new terminal)
-   cd frontend
-   npm run dev
-   ```
-
-6. **Access the Application:**
-   Open [http://localhost:5173](http://localhost:5173) in your browser.
-
-## Folder Structure
-
-```
-Foodeo/
-|-- backend/        # Backend server (Node.js/Express + DB)
-|-- frontend/       # Frontend client (React.js)
-|-- videos/         # Static video uploads
-|-- .gitignore
-|-- README.md
-```
-
-## Contributing
-
-Contributions are welcome!
-
-1. Fork this repo.
-2. Create a feature branch (`feature/your-feature-name`).
-3. Commit your changes.
-4. Push and open a Pull Request.
-
-## Deployment
-
-This project can be deployed on **Vercel** (Frontend) and **Render/Heroku** (Backend).
-
-## Contact
-
-For queries, collaborations, or opportunities, reach out:
-
-* **Email**: [abdulirfan1108@gmail.com](mailto:abdulirfan1108@gmail.com)
-* **LinkedIn**: [My LinkedIn Profile](https://www.linkedin.com/in/abdul-irfan-53728a270/)
+Foodeo is a creative social platform for food lovers where short, engaging food reels take the spotlight. Explore, share, and enjoy bite-sized food videos — from mouth-watering recipes and street food adventures to restaurant highlights and kitchen hacks.
 
 ---
 
-✨ Thank you for checking out **Foodeo**! Hope you enjoy using it as much as I enjoyed building it.
+## Live Link 🎉
+You can view the live preview of the project here:  
+👉 https://foodeo.vercel.app/
+
+---
+
+## 🚀 Features
+
+### 1. Authentication & Protected Routes
+- Secure login and registration system.
+- Protect user data with guarded routes.
+
+### 2. Profile Management
+- Update user details and manage account settings.
+- Personalized profiles featuring your reels and activity.
+
+### 3. Reels (CRUD)
+- Create, read, update, and delete food reels.
+- Seamless and instant interactions for a smooth UX.
+
+### 4. Like & Save
+- Like reels with immediate feedback.
+- Save reels for later viewing.
+
+### 5. Responsive Design
+- Fully responsive for desktop and mobile.
+- Built with modern UI/UX principles.
+
+### 6. Media Handling
+- Supports short video uploads.
+- Optional local storage via a videos/ directory (or integrate a cloud provider).
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- React.js
+- React Router
+- CSS
+
+### Backend
+- Node.js + Express
+- Database: MongoDB (or Firebase, based on your setup)
+
+### Additional Tools
+- Authentication & Authorization (JWT or Session-based)
+- File upload handling (implementation-specific)
+
+---
+
+## ⚙️ Installation
+
+### Prerequisites
+- Node.js and npm (or yarn)
+- A configured database (e.g., MongoDB or Firebase)
+- Environment variables for frontend and backend
+
+### 1) Clone the Repository
+```bash
+git clone https://github.com/Irfanabdul1108/foodeo.git
 ```
+
+### 2) Backend Setup
+```bash
+cd foodeo/backend
+npm install
+```
+
+Create a .env file in backend/ with the required variables. Example (MongoDB + JWT):
+```bash
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_super_secret_jwt_key
+NODE_ENV=development
+```
+
+If using Firebase instead of MongoDB, configure your Firebase credentials (example):
+```bash
+FIREBASE_PROJECT_ID=your_project_id
+FIREBASE_CLIENT_EMAIL=your_client_email
+FIREBASE_PRIVATE_KEY="your_private_key"
+FIREBASE_STORAGE_BUCKET=your_bucket
+JWT_SECRET=your_super_secret_jwt_key
+PORT=5000
+NODE_ENV=development
+```
+
+Run the backend:
+```bash
+npm run dev
+```
+
+### 3) Frontend Setup
+Open a new terminal:
+```bash
+cd foodeo/frontend
+npm install
+```
+
+Create a .env file in frontend/ (Vite example):
+```bash
+VITE_API_BASE_URL=http://localhost:5000
+```
+
+Run the frontend:
+```bash
+npm run dev
+```
+
+### 4) Visit the App
+Open http://localhost:5173 in your browser.
+
+---
+
+## 📁 Sample File Structure
+
+```
+Foodeo/
+├── backend/                 # Node.js/Express backend
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── routes/
+│   │   ├── models/          # (If using MongoDB/Mongoose)
+│   │   ├── middleware/
+│   │   └── utils/
+│   ├── package.json
+│   └── .env                 # (Not committed)
+├── frontend/                # React frontend
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── hooks/
+│   │   └── services/
+│   ├── index.html
+│   ├── package.json
+│   └── .env                 # (Not committed)
+├── videos/                  # Static/local video uploads (optional)
+├── .gitignore
+└── README.md
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the repository.
+2. Create a new branch: `feature/your-feature-name`.
+3. Commit your changes.
+4. Push to your fork.
+5. Open a Pull Request.
+
+---
+
+## 🚀 Deployment
+
+- Frontend: Vercel
+- Backend: Render / Railway / Heroku (choose your preferred provider)
+
+Make sure to:
+- Set environment variables on the hosting platforms (same as your local .env).
+- Update VITE_API_BASE_URL in the frontend to point to your deployed backend URL.
+
+---
+
+## 📬 Contact
+
+For queries, collaborations, or opportunities, reach out:
+- Email: abdulirfan1108@gmail.com
+- LinkedIn: https://www.linkedin.com/in/abdul-irfan-53728a270/
+
+---
+
+Thank you for exploring Foodeo! Hope you enjoy using it as much as I enjoyed building it. 🍔🎬✨
