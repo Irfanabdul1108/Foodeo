@@ -6,7 +6,7 @@ Foodeo is a creative social platform for food lovers where short, engaging food 
 
 ## Live Link 🎉
 You can view the live preview of the project here:  
-👉 [httfoodeo-lilac.vercel.app](https://foodeo-lilac.vercel.app/)
+👉 [foodeo-lilac.vercel.app](https://foodeo-lilac.vercel.app/)
 
 ---
 
