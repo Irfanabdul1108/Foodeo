@@ -66,7 +66,7 @@ You can view the live preview of the project here:
 
 1. **Clone the Repository**
 ```bash
-git clone [https://github.com/Irfanabdul1108/Foodeo.git](https://github.com/Irfanabdul1108/Foodeo.git)
+git clone https://github.com/Irfanabdul1108/Foodeo.git
 ```
 
 2. **Navigate to the Backend folder**
