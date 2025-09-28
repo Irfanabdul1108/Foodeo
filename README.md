@@ -60,13 +60,13 @@ You can view the live preview of the project here:
 ### Prerequisites
 - Node.js
 - npm or yarn
-- `.env` setup for both client and server
+- `.env` setup for server and client(if any)
 
 ### Steps to Run Locally
 
 1. **Clone the Repository**
 ```bash
-git clone https://github.com/Irfanabdul1108/talknlearn.git
+git clone [https://github.com/Irfanabdul1108/Foodeo.git](https://github.com/Irfanabdul1108/Foodeo.git)
 ```
 
 2. **Navigate to the Backend folder**
@@ -75,7 +75,7 @@ cd foodeo/backend
 ```
 
 3. **Setup Environment Variables**  
-Create a `.env` file with required variables (MongoDB URI, JWT secret, Stream credentials).
+Create a `.env` file with required variables mentioned in .env.example.
 
 4. **Install Backend Dependencies**
 ```bash
@@ -112,7 +112,7 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 ## 📁 Sample File Structure
 
 ```
-foodeo/
+Foodeo/
 ├── frontend/          # React frontend
 │   └── src/
 │       └── Routes/
